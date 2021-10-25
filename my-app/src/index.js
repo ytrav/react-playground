@@ -1,39 +1,75 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
 
-function formatName(user) {
-    return user.firstName + ' ' + user.lastName;
+class Square extends React.Component {
+  render() {
+    return (
+      <button className="square" onClick={() => this.props.onClick()}>
+        {this.props.value}
+      </button>
+    );
+  }
 }
 
-const user = {
-    firstName: 'Anton',
-    lastName: 'Shevchuk'
-};
+class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      squares: Array(9).fill(null),
+    };
+  }
+  renderSquare(i) {
+    return (
+      <Square
+        value={this.state.squares[i]}
+        onClick={() => this.handleClick(i)}
+      />
+    );
+  }
 
-const element = (
-    <h1>
-        Hello, {formatName(user)}!
-    </h1>
-)
+  render() {
+    const status = "Next player: X";
 
-const button = (
-    <div>
-        <h1>
-            Hello, {formatName(user)}!
-        </h1>
-        <button onclick={sussy}>
-            Pressy pressy
-        </button>
-    </div>
-
-)
-
-function sussy() {
-    alert('Anton is sus')
+    return (
+      <div>
+        <div className="status">{status}</div>
+        <div className="board-row">
+          {this.renderSquare(0)}
+          {this.renderSquare(1)}
+          {this.renderSquare(2)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(3)}
+          {this.renderSquare(4)}
+          {this.renderSquare(5)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(6)}
+          {this.renderSquare(7)}
+          {this.renderSquare(8)}
+        </div>
+      </div>
+    );
+  }
 }
 
-ReactDOM.render(
-    button,
-    document.getElementById('root')
-)
+class Game extends React.Component {
+  render() {
+    return (
+      <div className="game">
+        <div className="game-board">
+          <Board />
+        </div>
+        <div className="game-info">
+          <div>{/* status */}</div>
+          <ol>{/* TODO */}</ol>
+        </div>
+      </div>
+    );
+  }
+}
+
+// ========================================
+
+ReactDOM.render(<Game />, document.getElementById("root"));
